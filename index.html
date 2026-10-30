@@ -22,6 +22,18 @@
   .country:focus-visible { outline:3px solid #4a9184; outline-offset:3px; }
   .country:hover { border-color:var(--red); background:#fffafa; transform:translateY(-1px); }
   .arrow { color:var(--red); font-size:1.1rem; flex-shrink:0; }
+
+  .search-wrap { margin:0 0 14px; }
+  .search-label { display:block; margin:0 0 6px; color:var(--ink); font-size:.86rem; font-weight:700; }
+  .search-box { width:100%; min-height:48px; padding:11px 14px; border:1px solid #d7dadd; border-radius:12px; background:#fff; color:var(--ink); font:inherit; outline:none; }
+  .search-box:focus { border-color:#4a9184; box-shadow:0 0 0 3px rgba(74,145,132,.15); }
+  .search-meta { min-height:20px; margin:7px 2px 0; color:var(--muted); font-size:.8rem; }
+  .country-name { display:flex; align-items:center; gap:11px; min-width:0; }
+  .flag { width:1.7rem; flex:0 0 1.7rem; font-size:1.35rem; line-height:1; text-align:center; }
+  .country[hidden] { display:none; }
+  .empty-state { display:none; padding:18px; border:1px dashed #cbd0d3; border-radius:12px; color:var(--muted); text-align:center; background:#fff; }
+  .empty-state.visible { display:block; }
+
   footer { margin-top:28px; padding:20px 8px 0; border-top:1px solid var(--line); color:var(--muted); font-size:.82rem; text-align:center; }
   .copyright { margin-top:12px; color:var(--ink); font-weight:750; font-size:.9rem; }
   .disclaimer { margin-top:8px; font-size:.74rem; color:#747b80; }
@@ -36,31 +48,78 @@
     <p>Select your destination country to open its declaration or traveller health website.</p>
   </header>
   <p class="note">Use the relevant country link below. Forms and entry requirements may change; follow the instructions on the official website.</p>
-  <nav class="links" aria-label="Destination countries">
-    <a class="country" href="https://afyamsafiri.moh.go.tz/#/" target="_blank" rel="noopener noreferrer"><span>Tanzania</span><span class="arrow" aria-hidden="true">↗</span></a>
-    <a class="country" href="https://healthtravelznz.mohz.go.tz/traveller/#/arrival/home" target="_blank" rel="noopener noreferrer"><span>Zanzibar</span><span class="arrow" aria-hidden="true">↗</span></a>
-    <a class="country" href="https://poes.health.go.ug/declare/arrive" target="_blank" rel="noopener noreferrer"><span>Uganda</span><span class="arrow" aria-hidden="true">↗</span></a>
-    <a class="country" href="https://healthapp.ncdc.gov.ng/" target="_blank" rel="noopener noreferrer"><span>Nigeria</span><span class="arrow" aria-hidden="true">↗</span></a>
-    <a class="country" href="https://safemauritius.govmu.org/" target="_blank" rel="noopener noreferrer"><span>Mauritius</span><span class="arrow" aria-hidden="true">↗</span></a>
-    <a class="country" href="https://airsuvidha.civilaviation.gov.in/" target="_blank" rel="noopener noreferrer"><span>India</span><span class="arrow" aria-hidden="true">↗</span></a>
-    <a class="country" href="https://enketo.afro.who.int/x/tQGIObnA" target="_blank" rel="noopener noreferrer"><span>Comoros</span><span class="arrow" aria-hidden="true">↗</span></a>
-    <a class="country" href="https://pnhf.anicns.cd/voyageur" target="_blank" rel="noopener noreferrer"><span>Democratic Republic of the Congo (D.R. Congo)</span><span class="arrow" aria-hidden="true">↗</span></a>
-    <a class="country" href="https://poe-screening.znphi.co.zm/welcome/travellers.html" target="_blank" rel="noopener noreferrer"><span>Zambia</span><span class="arrow" aria-hidden="true">↗</span></a>
-    <a class="country" href="https://www.evisa.gov.zw/app/index.html#/standby-kiosk" target="_blank" rel="noopener noreferrer"><span>Zimbabwe</span><span class="arrow" aria-hidden="true">↗</span></a>
-    <a class="country" href="http://www.destinationci.com/" target="_blank" rel="noopener noreferrer"><span>Côte d’Ivoire (Ivory Coast)</span><span class="arrow" aria-hidden="true">↗</span></a>
-    <a class="country" href="https://tdac.immigration.go.th/arrival-card/#/home" target="_blank" rel="noopener noreferrer"><span>Thailand</span><span class="arrow" aria-hidden="true">↗</span></a>
-    <a class="country" href="https://s.nia.gov.cn/ArrivalCardFillingPhone/" target="_blank" rel="noopener noreferrer"><span>China</span><span class="arrow" aria-hidden="true">↗</span></a>
-    <a class="country" href="https://porthealth.dhmis.org/travel/" target="_blank" rel="noopener noreferrer"><span>South Africa</span><span class="arrow" aria-hidden="true">↗</span></a>
-    <a class="country" href="https://poep.npha.gov.sl/" target="_blank" rel="noopener noreferrer"><span>Sierra Leone</span><span class="arrow" aria-hidden="true">↗</span></a>
-    <a class="country" href="https://e-thtp.ephi.gov.et/thp/#." target="_blank" rel="noopener noreferrer"><span>Ethiopia</span><span class="arrow" aria-hidden="true">↗</span></a>
-    <a class="country" href="https://ee-eu.kobotoolbox.org/x/O2BFsXoG" target="_blank" rel="noopener noreferrer"><span>Burundi</span><span class="arrow" aria-hidden="true">↗</span></a>
-    <a class="country" href="https://poe.health.gov.mw/self-screen" target="_blank" rel="noopener noreferrer"><span>Malawi</span><span class="arrow" aria-hidden="true">↗</span></a>
+  <div class="search-wrap">
+    <label class="search-label" for="country-search">Find your destination</label>
+    <input
+      id="country-search"
+      class="search-box"
+      type="search"
+      placeholder="Search a country..."
+      autocomplete="off"
+      aria-controls="country-links"
+      aria-describedby="search-status"
+    >
+    <p class="search-meta" id="search-status" aria-live="polite">18 destinations available</p>
+  </div>
+  <nav class="links" id="country-links" aria-label="Destination countries">
+    <a class="country" href="https://afyamsafiri.moh.go.tz/#/" target="_blank" rel="noopener noreferrer"><span class="country-name"><span class="flag" aria-hidden="true">🇹🇿</span><span>Tanzania</span></span><span class="arrow" aria-hidden="true">↗</span></a>
+    <a class="country" href="https://healthtravelznz.mohz.go.tz/traveller/#/arrival/home" target="_blank" rel="noopener noreferrer"><span class="country-name"><span class="flag" aria-hidden="true">🇹🇿</span><span>Zanzibar</span></span><span class="arrow" aria-hidden="true">↗</span></a>
+    <a class="country" href="https://poes.health.go.ug/declare/arrive" target="_blank" rel="noopener noreferrer"><span class="country-name"><span class="flag" aria-hidden="true">🇺🇬</span><span>Uganda</span></span><span class="arrow" aria-hidden="true">↗</span></a>
+    <a class="country" href="https://healthapp.ncdc.gov.ng/" target="_blank" rel="noopener noreferrer"><span class="country-name"><span class="flag" aria-hidden="true">🇳🇬</span><span>Nigeria</span></span><span class="arrow" aria-hidden="true">↗</span></a>
+    <a class="country" href="https://safemauritius.govmu.org/" target="_blank" rel="noopener noreferrer"><span class="country-name"><span class="flag" aria-hidden="true">🇲🇺</span><span>Mauritius</span></span><span class="arrow" aria-hidden="true">↗</span></a>
+    <a class="country" href="https://airsuvidha.civilaviation.gov.in/" target="_blank" rel="noopener noreferrer"><span class="country-name"><span class="flag" aria-hidden="true">🇮🇳</span><span>India</span></span><span class="arrow" aria-hidden="true">↗</span></a>
+    <a class="country" href="https://enketo.afro.who.int/x/tQGIObnA" target="_blank" rel="noopener noreferrer"><span class="country-name"><span class="flag" aria-hidden="true">🇰🇲</span><span>Comoros</span></span><span class="arrow" aria-hidden="true">↗</span></a>
+    <a class="country" href="https://pnhf.anicns.cd/voyageur" target="_blank" rel="noopener noreferrer"><span class="country-name"><span class="flag" aria-hidden="true">🇨🇩</span><span>Democratic Republic of the Congo (D.R. Congo)</span></span><span class="arrow" aria-hidden="true">↗</span></a>
+    <a class="country" href="https://poe-screening.znphi.co.zm/welcome/travellers.html" target="_blank" rel="noopener noreferrer"><span class="country-name"><span class="flag" aria-hidden="true">🇿🇲</span><span>Zambia</span></span><span class="arrow" aria-hidden="true">↗</span></a>
+    <a class="country" href="https://www.evisa.gov.zw/app/index.html#/standby-kiosk" target="_blank" rel="noopener noreferrer"><span class="country-name"><span class="flag" aria-hidden="true">🇿🇼</span><span>Zimbabwe</span></span><span class="arrow" aria-hidden="true">↗</span></a>
+    <a class="country" href="http://www.destinationci.com/" target="_blank" rel="noopener noreferrer"><span class="country-name"><span class="flag" aria-hidden="true">🇨🇮</span><span>Côte d’Ivoire (Ivory Coast)</span></span><span class="arrow" aria-hidden="true">↗</span></a>
+    <a class="country" href="https://tdac.immigration.go.th/arrival-card/#/home" target="_blank" rel="noopener noreferrer"><span class="country-name"><span class="flag" aria-hidden="true">🇹🇭</span><span>Thailand</span></span><span class="arrow" aria-hidden="true">↗</span></a>
+    <a class="country" href="https://s.nia.gov.cn/ArrivalCardFillingPhone/" target="_blank" rel="noopener noreferrer"><span class="country-name"><span class="flag" aria-hidden="true">🇨🇳</span><span>China</span></span><span class="arrow" aria-hidden="true">↗</span></a>
+    <a class="country" href="https://porthealth.dhmis.org/travel/" target="_blank" rel="noopener noreferrer"><span class="country-name"><span class="flag" aria-hidden="true">🇿🇦</span><span>South Africa</span></span><span class="arrow" aria-hidden="true">↗</span></a>
+    <a class="country" href="https://poep.npha.gov.sl/" target="_blank" rel="noopener noreferrer"><span class="country-name"><span class="flag" aria-hidden="true">🇸🇱</span><span>Sierra Leone</span></span><span class="arrow" aria-hidden="true">↗</span></a>
+    <a class="country" href="https://e-thtp.ephi.gov.et/thp/#." target="_blank" rel="noopener noreferrer"><span class="country-name"><span class="flag" aria-hidden="true">🇪🇹</span><span>Ethiopia</span></span><span class="arrow" aria-hidden="true">↗</span></a>
+    <a class="country" href="https://ee-eu.kobotoolbox.org/x/O2BFsXoG" target="_blank" rel="noopener noreferrer"><span class="country-name"><span class="flag" aria-hidden="true">🇧🇮</span><span>Burundi</span></span><span class="arrow" aria-hidden="true">↗</span></a>
+    <a class="country" href="https://poe.health.gov.mw/self-screen" target="_blank" rel="noopener noreferrer"><span class="country-name"><span class="flag" aria-hidden="true">🇲🇼</span><span>Malawi</span></span><span class="arrow" aria-hidden="true">↗</span></a>
   </nav>
+  <div class="empty-state" id="no-results">No matching country found. Try another name.</div>
   <footer>
     <div>Choose the destination carefully and verify current entry requirements with the relevant official authority.</div>
     <div class="copyright">© 2026 Bennion-tech. All rights reserved.</div>
     <div class="disclaimer">Independent passenger information page. Not an official Kenya Airways website. The Kenya Airways name and logo belong to their respective owner.</div>
   </footer>
 </main>
+
+<script>
+(() => {
+  const search = document.getElementById('country-search');
+  const links = Array.from(document.querySelectorAll('#country-links .country'));
+  const status = document.getElementById('search-status');
+  const empty = document.getElementById('no-results');
+
+  const normalize = value => value
+    .toLocaleLowerCase()
+    .normalize('NFD')
+    .replace(/[\\u0300-\\u036f]/g, '')
+    .trim();
+
+  search.addEventListener('input', () => {
+    const query = normalize(search.value);
+    let visible = 0;
+
+    links.forEach(link => {
+      const name = normalize(link.textContent);
+      const matches = name.includes(query);
+      link.hidden = !matches;
+      if (matches) visible++;
+    });
+
+    status.textContent = query
+      ? `${visible} of ${links.length} destinations`
+      : `${links.length} destinations available`;
+    empty.classList.toggle('visible', visible === 0);
+  });
+})();
+</script>
+
 </body>
 </html>
